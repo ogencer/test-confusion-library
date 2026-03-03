@@ -1,0 +1,137 @@
+{
+  "id": "sklearn",
+  "name": "Scikit-Learn",
+  "description": "Machine learning library for classification, regression, and clustering",
+  "pythonPackage": "sklearn",
+  "pipPackage": "scikit-learn",
+  "imports": ["import sklearn", "from sklearn import preprocessing, model_selection, metrics"],
+  "variablePrefix": "model",
+  "color": "#f89939",
+  "icon": "brain",
+  "version": "0.1.0",
+  "schemaVersion": "1",
+  "portTypes": {
+    "DataFrame": { "color": "#150458", "label": "DataFrame" },
+    "Model": { "color": "#f89939", "label": "Model" },
+    "ndarray": { "color": "#4dabf7", "label": "Array" },
+    "scalar": { "color": "#7B2CBF", "label": "Scalar" }
+  },
+  "previewStrategies": {
+    "DataFrame": "dataframe",
+    "Model": "scalar",
+    "ndarray": "auto",
+    "scalar": "scalar"
+  },
+  "tools": [
+    {
+      "label": "train_test_split",
+      "function": "model_selection.train_test_split",
+      "category": "Model Selection",
+      "description": "Split data into train and test sets",
+      "inputs": [{ "type": "DataFrame" }],
+      "outputs": [{ "type": "DataFrame" }, { "type": "DataFrame" }],
+      "codeTemplate": "{output}_train, {output}_test = model_selection.train_test_split({input[0]}{test_size:named_raw:optional}{random_state:named_raw:optional})",
+      "params": [
+        { "name": "test_size", "type": "text", "placeholder": "0.2" },
+        { "name": "random_state", "type": "text", "placeholder": "42" }
+      ]
+    },
+    {
+      "label": "standard_scaler",
+      "function": "preprocessing.StandardScaler",
+      "category": "Preprocessing",
+      "description": "Standardize features by removing the mean and scaling to unit variance",
+      "inputs": [{ "type": "DataFrame" }],
+      "outputs": [{ "type": "DataFrame" }],
+      "codeTemplate": "{output} = pd.DataFrame(preprocessing.StandardScaler().fit_transform({input[0]}), columns={input[0]}.columns)",
+      "params": []
+    },
+    {
+      "label": "min_max_scaler",
+      "function": "preprocessing.MinMaxScaler",
+      "category": "Preprocessing",
+      "description": "Scale features to a given range (default 0-1)",
+      "inputs": [{ "type": "DataFrame" }],
+      "outputs": [{ "type": "DataFrame" }],
+      "codeTemplate": "{output} = pd.DataFrame(preprocessing.MinMaxScaler().fit_transform({input[0]}), columns={input[0]}.columns)",
+      "params": []
+    },
+    {
+      "label": "label_encoder",
+      "function": "preprocessing.LabelEncoder",
+      "category": "Preprocessing",
+      "description": "Encode categorical labels as integers",
+      "inputs": [{ "type": "DataFrame" }],
+      "outputs": [{ "type": "DataFrame" }],
+      "codeTemplate": "{output} = {input[0]}.apply(preprocessing.LabelEncoder().fit_transform)",
+      "params": []
+    },
+    {
+      "label": "logistic_regression",
+      "function": "LogisticRegression",
+      "category": "Classification",
+      "description": "Fit a logistic regression model",
+      "inputs": [{ "type": "DataFrame" }, { "type": "DataFrame" }],
+      "outputs": [{ "type": "Model" }],
+      "codeTemplate": "from sklearn.linear_model import LogisticRegression\n{output} = LogisticRegression({max_iter:named_raw:optional}{random_state:named_raw:optional}).fit({input[0]}, {input[1]})",
+      "params": [
+        { "name": "max_iter", "type": "text", "placeholder": "100" },
+        { "name": "random_state", "type": "text", "placeholder": "42" }
+      ]
+    },
+    {
+      "label": "random_forest",
+      "function": "RandomForestClassifier",
+      "category": "Classification",
+      "description": "Fit a random forest classifier",
+      "inputs": [{ "type": "DataFrame" }, { "type": "DataFrame" }],
+      "outputs": [{ "type": "Model" }],
+      "codeTemplate": "from sklearn.ensemble import RandomForestClassifier\n{output} = RandomForestClassifier({n_estimators:named_raw:optional}{max_depth:named_raw:optional}{random_state:named_raw:optional}).fit({input[0]}, {input[1]})",
+      "params": [
+        { "name": "n_estimators", "type": "text", "placeholder": "100" },
+        { "name": "max_depth", "type": "text", "placeholder": "None" },
+        { "name": "random_state", "type": "text", "placeholder": "42" }
+      ]
+    },
+    {
+      "label": "predict",
+      "function": "predict",
+      "category": "Prediction",
+      "description": "Generate predictions from a fitted model",
+      "inputs": [{ "type": "Model" }, { "type": "DataFrame" }],
+      "outputs": [{ "type": "ndarray" }],
+      "codeTemplate": "{output} = {input[0]}.predict({input[1]})",
+      "params": []
+    },
+    {
+      "label": "accuracy_score",
+      "function": "metrics.accuracy_score",
+      "category": "Metrics",
+      "description": "Calculate accuracy score",
+      "inputs": [{ "type": "ndarray" }, { "type": "ndarray" }],
+      "outputs": [{ "type": "scalar" }],
+      "codeTemplate": "{output} = metrics.accuracy_score({input[0]}, {input[1]})",
+      "params": []
+    },
+    {
+      "label": "confusion_matrix",
+      "function": "metrics.confusion_matrix",
+      "category": "Metrics",
+      "description": "Compute confusion matrix",
+      "inputs": [{ "type": "ndarray" }, { "type": "ndarray" }],
+      "outputs": [{ "type": "ndarray" }],
+      "codeTemplate": "{output} = metrics.confusion_matrix({input[0]}, {input[1]})",
+      "params": []
+    },
+    {
+      "label": "classification_report",
+      "function": "metrics.classification_report",
+      "category": "Metrics",
+      "description": "Build a text report of main classification metrics",
+      "inputs": [{ "type": "ndarray" }, { "type": "ndarray" }],
+      "outputs": [{ "type": "scalar" }],
+      "codeTemplate": "{output} = metrics.classification_report({input[0]}, {input[1]})",
+      "params": []
+    }
+  ]
+}
